@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Sovereign AI palette (DESIGN.md) ─────────────────────────────────── */
+  --color-surface: #fbf9f7;
+  --color-surface-dim: #dbdad8;
+  --color-surface-bright: #fbf9f7;
+  --color-card: #ffffff;
+  --color-card-soft: #f5f3f1;
+  --color-card-mid: #efedec;
+  --color-card-high: #eae8e6;
+  --color-card-top: #e4e2e0;
+
+  --color-ink: #1b1c1b;
+  --color-ink-soft: #544341;
+  --color-ink-inverse: #f2f0ee;
+  --color-ink-on-inverse: #30302f;
+
+  --color-outline: #877270;
+  --color-outline-soft: #dac1bf;
+
+  --color-maroon: #2a0002;
+  --color-maroon-deep: #4a0e0e;
+  --color-maroon-on: #ffffff;
+  --color-maroon-soft: #cc726d;
+  --color-maroon-bright: #ffb3ad;
+  --color-maroon-tint: #ffdad7;
+
+  --color-secondary: #715858;
+  --color-secondary-soft: #fcdbda;
+  --color-secondary-mid: #debfbe;
+
+  --color-copper: #a98742;
+  --color-copper-dim: #e9c176;
+  --color-copper-soft: #ffdea5;
+
+  --color-error: #ba1a1a;
+  --color-error-soft: #ffdad6;
+
+  /* ── Shadcn-style aliases used by primitives ──────────────────────────── */
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-ink);
+  --color-primary: var(--color-maroon);
+  --color-primary-foreground: var(--color-maroon-on);
+  --color-muted: var(--color-card-mid);
+  --color-muted-foreground: var(--color-ink-soft);
+  --color-accent: var(--color-copper);
+  --color-accent-foreground: var(--color-ink-inverse);
+  --color-border: var(--color-outline-soft);
+  --color-ring: var(--color-maroon-deep);
+
+  /* ── Fonts ────────────────────────────────────────────────────────────── */
+  --font-sans: var(--font-sora);
+  --font-serif: var(--font-playfair);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* ── Type scale (DESIGN.md) ───────────────────────────────────────────── */
+  --text-display-lg: 4.5rem; /* 72px */
+  --text-display-lg--line-height: 5rem;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+
+  --text-display-mobile: 3rem; /* 48px */
+  --text-display-mobile--line-height: 3.25rem;
+  --text-display-mobile--letter-spacing: -0.01em;
+  --text-display-mobile--font-weight: 700;
+
+  --text-headline-lg: 2.5rem; /* 40px */
+  --text-headline-lg--line-height: 3rem;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 2rem; /* 32px */
+  --text-headline-md--line-height: 2.5rem;
+  --text-headline-md--font-weight: 600;
+
+  --text-body-lg: 1.125rem; /* 18px */
+  --text-body-lg--line-height: 1.75rem;
+
+  --text-body-md: 1rem; /* 16px */
+  --text-body-md--line-height: 1.5rem;
+
+  --text-label-caps: 0.75rem; /* 12px */
+  --text-label-caps--line-height: 1rem;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 600;
+
+  --text-mono-data: 0.875rem; /* 14px */
+  --text-mono-data--line-height: 1.25rem;
+  --text-mono-data--font-weight: 500;
+
+  /* ── Radii (DESIGN.md) ────────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem; /* image radii */
+  --radius-2xl: 2rem; /* project cards */
+  --radius-full: 9999px;
+
+  /* ── Spacing (DESIGN.md) ──────────────────────────────────────────────── */
+  --spacing-container: 1280px;
+  --spacing-section: 7.5rem; /* 120px */
+  --spacing-stack-lg: 3rem; /* 48px */
+  --spacing-stack-md: 1.5rem; /* 24px */
+  --spacing-stack-sm: 0.75rem; /* 12px */
+  --spacing-gutter: 1.5rem; /* 24px */
+  --spacing-margin-mobile: 1.25rem; /* 20px */
+
+  /* ── Motion ───────────────────────────────────────────────────────────── */
+  --ease-portfolio: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --duration-portfolio: 250ms;
+
+  /* ── Shadows ──────────────────────────────────────────────────────────── */
+  --shadow-ambient: 0 20px 40px rgba(45, 27, 27, 0.05);
+  --shadow-card: 0 1px 0 rgba(42, 0, 2, 0.04), 0 8px 24px rgba(42, 0, 2, 0.04);
+  --shadow-copper-glow: 0 0 0 1px rgba(169, 135, 66, 0.4),
+    0 6px 20px rgba(169, 135, 66, 0.18);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  html {
+    background-color: var(--color-surface);
+    color: var(--color-ink-soft);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family:
+      var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-family: var(--font-serif), "Iowan Old Style", Garamond, Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition:
+      color var(--duration-portfolio) var(--ease-portfolio),
+      opacity var(--duration-portfolio) var(--ease-portfolio);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-copper);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-secondary-soft);
+    color: var(--color-maroon);
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--color-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-card-high);
+    border: 3px solid var(--color-surface);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-outline);
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif), "Iowan Old Style", Garamond, Georgia, serif;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono), "Fira Code", Consolas, Monaco, monospace;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* label-caps utility - uppercase letterspaced metadata */
+  .label-caps {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: var(--text-label-caps);
+    line-height: var(--text-label-caps--line-height);
+    letter-spacing: var(--text-label-caps--letter-spacing);
+    font-weight: var(--text-label-caps--font-weight);
+    text-transform: uppercase;
+  }
+
+  /* mono-data utility - for years / coordinates */
+  .mono-data {
+    font-family: var(--font-mono), monospace;
+    font-size: var(--text-mono-data);
+    line-height: var(--text-mono-data--line-height);
+    font-weight: var(--text-mono-data--font-weight);
+    letter-spacing: 0.02em;
+  }
+
+  /* Glass surface (DESIGN.md elevation level 2) */
+  .glass {
+    background: color-mix(in srgb, #ffffff 70%, transparent);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 0.5px solid color-mix(in srgb, var(--color-maroon-deep) 10%, transparent);
+  }
+
+  .glass-elevated {
+    background: color-mix(in srgb, #ffffff 92%, transparent);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 0.5px solid color-mix(in srgb, var(--color-maroon-deep) 12%, transparent);
+    box-shadow: var(--shadow-ambient);
+  }
+
+  /* Page container - 1280px max, fluid gutters */
+  .container-page {
+    width: 100%;
+    max-width: var(--spacing-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-margin-mobile);
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: var(--spacing-gutter);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Section vertical rhythm */
+  .section-y {
+    padding-block: 5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .section-y {
+      padding-block: var(--spacing-section);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,5 @@
+.next
+.velite
+node_modules
+public/static
+pnpm-lock.yaml
