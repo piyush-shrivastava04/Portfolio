@@ -7,11 +7,13 @@
     "build": "velite && next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
     "typecheck": "velite && tsc --noEmit",
     "content": "velite --watch",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,mdx,css}\""
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
@@ -23,18 +25,23 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@eslint/eslintrc": "^3",
     "eslint": "^9",
     "eslint-config-next": "^16.2.6",
+    "jsdom": "^29.1.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "velite": "^0.3.1"
+    "velite": "^0.3.1",
+    "vitest": "^4.1.7"
   },
   "packageManager": "pnpm@11.1.3"
 }

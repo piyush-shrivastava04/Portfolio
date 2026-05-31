@@ -1,34 +1,71 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import * as React from "react";
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { Send, CheckCircle2, AlertCircle } from "lucide-react";
-import { submitContact, type ContactState } from "@/app/actions/contact";
-import { Input, Textarea } from "@/components/ui/input";
+import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input, Textarea } from "@/components/ui/input";
+
+type ContactState = {
+  status: "idle" | "sending" | "success" | "error";
+  message?: string;
+};
 
 const initialState: ContactState = { status: "idle" };
 
-export function ContactForm({ submitLabel }: { submitLabel: string }) {
-  const [state, formAction] = useActionState(submitContact, initialState);
-  const formRef = React.useRef<HTMLFormElement>(null);
+function getEmailJsConfig() {
+  return {
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+  };
+}
 
-  React.useEffect(() => {
-    if (state.status === "success" && state.mailto) {
-      window.location.href = state.mailto;
-      formRef.current?.reset();
+export function ContactForm({ submitLabel }: { submitLabel: string }) {
+  const [state, setState] = React.useState<ContactState>(initialState);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const { serviceId, templateId, publicKey } = getEmailJsConfig();
+
+    if (!serviceId || !templateId || !publicKey) {
+      setState({
+        status: "error",
+        message: "Contact form is missing EmailJS configuration.",
+      });
+      return;
     }
-  }, [state]);
+
+    if (!form.reportValidity()) return;
+
+    setState({ status: "sending" });
+
+    try {
+      await emailjs.sendForm(serviceId, templateId, form, { publicKey });
+      form.reset();
+      setState({
+        status: "success",
+        message: "Thanks, your message has been sent. I will reply soon.",
+      });
+    } catch (error) {
+      console.error("[contact]", error);
+      setState({
+        status: "error",
+        message: "I could not send the message right now. Please email me directly.",
+      });
+    }
+  }
 
   return (
-    <form ref={formRef} action={formAction} className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <Field
         label="Name"
         name="name"
         placeholder="Your name"
         required
-        error={state.fieldErrors?.name}
+        maxLength={120}
       />
       <Field
         label="Email"
@@ -36,7 +73,6 @@ export function ContactForm({ submitLabel }: { submitLabel: string }) {
         type="email"
         placeholder="you@company.com"
         required
-        error={state.fieldErrors?.email}
       />
       <Field
         label="Message"
@@ -45,23 +81,30 @@ export function ContactForm({ submitLabel }: { submitLabel: string }) {
         rows={5}
         placeholder="What are you building?"
         required
-        error={state.fieldErrors?.message}
+        minLength={10}
+        maxLength={4000}
       />
 
       {state.status === "success" && state.message && (
-        <p className="flex items-start gap-2 text-sm text-[color:var(--color-copper)]">
+        <p
+          aria-live="polite"
+          className="flex items-start gap-2 text-sm text-[color:var(--color-copper)]"
+        >
           <CheckCircle2 size={16} className="mt-0.5 shrink-0" />
           {state.message}
         </p>
       )}
       {state.status === "error" && state.message && (
-        <p className="flex items-start gap-2 text-sm text-[color:var(--color-error)]">
+        <p
+          aria-live="polite"
+          className="flex items-start gap-2 text-sm text-[color:var(--color-error)]"
+        >
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
           {state.message}
         </p>
       )}
 
-      <SubmitButton label={submitLabel} />
+      <SubmitButton label={submitLabel} pending={state.status === "sending"} />
     </form>
   );
 }
@@ -74,7 +117,8 @@ function Field({
   as = "input",
   rows,
   required,
-  error,
+  minLength,
+  maxLength,
 }: {
   label: string;
   name: string;
@@ -83,7 +127,8 @@ function Field({
   as?: "input" | "textarea";
   rows?: number;
   required?: boolean;
-  error?: string;
+  minLength?: number;
+  maxLength?: number;
 }) {
   return (
     <label className="flex flex-col gap-2">
@@ -92,22 +137,32 @@ function Field({
         {required && <span aria-hidden className="text-[color:var(--color-copper)]"> *</span>}
       </span>
       {as === "textarea" ? (
-        <Textarea name={name} placeholder={placeholder} rows={rows} required={required} />
+        <Textarea
+          name={name}
+          placeholder={placeholder}
+          rows={rows}
+          required={required}
+          minLength={minLength}
+          maxLength={maxLength}
+        />
       ) : (
-        <Input name={name} type={type} placeholder={placeholder} required={required} />
-      )}
-      {error && (
-        <span className="text-xs text-[color:var(--color-error)]">{error}</span>
+        <Input
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          required={required}
+          minLength={minLength}
+          maxLength={maxLength}
+        />
       )}
     </label>
   );
 }
 
-function SubmitButton({ label }: { label: string }) {
-  const { pending } = useFormStatus();
+function SubmitButton({ label, pending }: { label: string; pending: boolean }) {
   return (
     <Button type="submit" variant="primary" size="lg" disabled={pending} className="self-start">
-      {pending ? "Sending…" : label}
+      {pending ? "Sending..." : label}
       <Send size={14} strokeWidth={2} />
     </Button>
   );
