@@ -22,7 +22,7 @@ export const siteConfig = {
   resume: "/piyush-shrivastava-resume.pdf",
   socials: {
     linkedin: "https://www.linkedin.com/in/piyush-shrivastava-5aba09243",
-    github: "https://github.com/piyushshrivastava-04",
+    github: "https://github.com/piyush-shrivastava04",
   },
   nav: [
     { label: "Projects", href: "#projects" },
