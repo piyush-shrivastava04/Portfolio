@@ -128,7 +128,7 @@ export function Timeline() {
                     "mt-6 text-[length:var(--text-body-md)] leading-[var(--text-body-md--line-height)] text-[color:var(--color-ink-soft)]",
                     // bullets with copper triangular markers
                     "[&_ul]:list-none [&_ul]:pl-0 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-4",
-                    "[&_li]:relative [&_li]:pl-7 [&_li]:text-justify [&_li]:hyphens-auto",
+                    "[&_li]:relative [&_li]:pl-7 [&_li]:text-left [&_li]:text-pretty [&_li]:hyphens-auto lg:[&_li]:text-justify",
                     "[&_li]:before:content-['▸'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[1px] [&_li]:before:text-[color:var(--color-copper)] [&_li]:before:text-base",
                     "[&_strong]:text-[color:var(--color-maroon-deep)] [&_strong]:font-medium",
                   )}

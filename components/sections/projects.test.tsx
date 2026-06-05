@@ -1,6 +1,6 @@
 import * as React from "react";
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { cleanup, render, screen, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Projects } from "./projects";
 
@@ -8,13 +8,22 @@ type MotionElementProps<T extends HTMLElement> = React.HTMLAttributes<T> & {
   initial?: unknown;
   transition?: unknown;
   variants?: unknown;
-  viewport?: unknown;
+  viewport?: { amount?: number } | unknown;
   whileHover?: unknown;
   whileInView?: unknown;
 };
 
 function motionProps<T extends HTMLElement>({ children, ...props }: MotionElementProps<T>) {
   const domProps = { ...props };
+
+  if (
+    props.viewport &&
+    typeof props.viewport === "object" &&
+    "amount" in props.viewport &&
+    typeof props.viewport.amount === "number"
+  ) {
+    domProps["data-viewport-amount" as keyof typeof domProps] = String(props.viewport.amount);
+  }
 
   delete domProps.initial;
   delete domProps.transition;
@@ -48,7 +57,38 @@ vi.mock("framer-motion", () => ({
   useReducedMotion: () => true,
 }));
 
+afterEach(() => {
+  cleanup();
+});
+
 describe("Projects", () => {
+  it("reveals the mobile case-study list as soon as the first cards enter view", () => {
+    render(<Projects />);
+
+    const curatedSection = screen
+      .getByRole("heading", { name: "Curated Case Studies" })
+      .closest("section");
+
+    const projectGrid = within(curatedSection!)
+      .getAllByRole("list")
+      .find((list) => list.getAttribute("data-viewport-amount") !== null);
+
+    expect(projectGrid).toHaveAttribute(
+      "data-viewport-amount",
+      "0.02",
+    );
+  });
+
+  it("aligns project highlight bullets with the rest of the card copy", () => {
+    render(<Projects />);
+
+    const highlight = screen.getByText(/Reduced coordination effort/i);
+
+    expect(highlight).toHaveClass("text-left");
+    expect(highlight).toHaveClass("lg:text-justify");
+    expect(highlight).not.toHaveClass("text-justify");
+  });
+
   it("keeps B2B Procurement in curated case studies while adding the new section", () => {
     render(<Projects />);
 

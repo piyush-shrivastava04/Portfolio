@@ -14,7 +14,7 @@ export function Contact() {
       >
         <FadeChild className="lg:col-span-5 flex flex-col gap-6">
           <div
-            className="prose max-w-none text-[color:var(--color-ink-soft)] text-[length:var(--text-body-lg)] leading-[var(--text-body-lg--line-height)] text-justify hyphens-auto"
+            className="prose max-w-none text-left text-[color:var(--color-ink-soft)] text-[length:var(--text-body-lg)] leading-[var(--text-body-lg--line-height)] text-pretty hyphens-auto lg:text-justify"
             dangerouslySetInnerHTML={{ __html: contact.body }}
           />
           <div className="flex flex-col gap-3 mt-2">
@@ -45,7 +45,7 @@ function Detail({
       <span className="label-caps text-[color:var(--color-ink-soft)]/70 w-20 shrink-0">
         {label}
       </span>
-      <span className="text-[color:var(--color-ink)]">{value}</span>
+      <span className="min-w-0 flex-1 break-all text-[color:var(--color-ink)]">{value}</span>
     </>
   );
   return href ? (
@@ -53,7 +53,7 @@ function Detail({
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noreferrer" : undefined}
-      className="flex items-baseline gap-4 group hover:text-[color:var(--color-copper)] transition-colors"
+      className="group flex items-baseline gap-4 transition-colors hover:text-[color:var(--color-copper)]"
     >
       {inner}
     </a>

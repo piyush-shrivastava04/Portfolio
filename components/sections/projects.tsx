@@ -81,7 +81,7 @@ export function Projects() {
         <motion.ul
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.02 }}
           variants={stagger(0.08)}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
         >
@@ -102,7 +102,7 @@ export function Projects() {
         <motion.ul
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.05 }}
           variants={stagger(0.08)}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
@@ -135,7 +135,7 @@ function ProjectCard({ project }: { project: Project }) {
         <h3 className="font-serif text-[length:var(--text-headline-md)] leading-[var(--text-headline-md--line-height)] text-balance">
           {project.title}
         </h3>
-        <p className="text-[color:var(--color-ink-soft)] text-justify hyphens-auto">
+        <p className="text-left text-[color:var(--color-ink-soft)] text-pretty hyphens-auto lg:text-justify">
           {project.summary}
         </p>
         {project.highlights && project.highlights.length > 0 && (
@@ -143,7 +143,7 @@ function ProjectCard({ project }: { project: Project }) {
             {project.highlights.map((highlight) => (
               <li
                 key={highlight}
-                className="relative pl-5 before:content-['-'] before:absolute before:left-0 before:top-0 before:text-[color:var(--color-copper)]"
+                className="relative pl-5 text-left text-pretty hyphens-auto lg:text-justify before:content-['-'] before:absolute before:left-0 before:top-0 before:text-[color:var(--color-copper)]"
               >
                 {highlight}
               </li>
@@ -175,7 +175,7 @@ function AdditionalBuildCard({ project }: { project: AdditionalBuild }) {
         </div>
         <ProjectMeta project={project} compact />
         <h3 className="font-serif text-2xl leading-tight text-balance">{project.title}</h3>
-        <p className="text-sm leading-6 text-[color:var(--color-ink-soft)] text-justify hyphens-auto">
+        <p className="text-left text-sm leading-6 text-[color:var(--color-ink-soft)] text-pretty hyphens-auto lg:text-justify">
           {project.summary}
         </p>
         {project.href && project.ctaLabel && (

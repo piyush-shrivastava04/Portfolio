@@ -13,7 +13,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        "label-caps inline-flex items-center rounded-full px-3 py-1.5 transition-colors",
+        "label-caps inline-flex max-w-full items-center justify-center rounded-full px-3 py-1.5 text-center transition-colors",
         tone === "default" &&
           "bg-[#f9f7f5] border border-[color:var(--color-maroon-deep)]/15 text-[color:var(--color-maroon-deep)]",
         tone === "filled" &&

@@ -30,7 +30,7 @@ export function Strategy() {
               {strategy.mindsetTitle}
             </h3>
             <div
-              className="prose prose-sm max-w-none text-[color:var(--color-ink-soft)] text-justify hyphens-auto [&_p]:leading-relaxed [&_p]:m-0"
+              className="prose prose-sm max-w-none text-left text-[color:var(--color-ink-soft)] text-pretty hyphens-auto lg:text-justify [&_p]:leading-relaxed [&_p]:m-0"
               dangerouslySetInnerHTML={{ __html: strategy.body }}
             />
             <ul className="mt-6 flex flex-col gap-2.5">
@@ -68,7 +68,7 @@ export function Strategy() {
                     <p className="label-caps text-[color:var(--color-maroon-deep)]">
                       {card.label}
                     </p>
-                    <p className="mt-2 text-[color:var(--color-ink-soft)] text-sm leading-relaxed text-justify hyphens-auto">
+                    <p className="mt-2 text-left text-[color:var(--color-ink-soft)] text-sm leading-relaxed text-pretty hyphens-auto lg:text-justify">
                       {card.summary}
                     </p>
                   </div>

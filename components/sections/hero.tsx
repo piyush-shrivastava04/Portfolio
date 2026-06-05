@@ -59,7 +59,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: easePortfolio }}
-            className="max-w-xl text-[length:var(--text-body-lg)] leading-[var(--text-body-lg--line-height)] text-[color:var(--color-ink-soft)] text-justify hyphens-auto"
+            className="max-w-[60ch] text-left text-[length:var(--text-body-lg)] leading-[var(--text-body-lg--line-height)] text-[color:var(--color-ink-soft)] text-pretty hyphens-auto lg:text-justify"
           >
             {hero.bio}
           </motion.p>
@@ -88,7 +88,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.15, ease: easePortfolio }}
-          className="lg:col-span-5 mx-auto w-full max-w-sm"
+          className="lg:col-span-5 mx-auto w-full max-w-[17rem] sm:max-w-xs lg:max-w-sm"
         >
           <motion.div
             style={reduced ? undefined : { y: portraitY, scale: portraitScale }}
@@ -111,7 +111,7 @@ function Portrait() {
         alt="Piyush Shrivastava"
         fill
         priority
-        sizes="(min-width: 1024px) 24rem, (min-width: 640px) 22rem, 90vw"
+        sizes="(min-width: 1024px) 24rem, (min-width: 640px) 20rem, 17rem"
         className="object-cover object-center"
       />
       <div className="absolute inset-0 ring-1 ring-inset ring-[color:var(--color-copper)]/25 rounded-2xl pointer-events-none" />
